@@ -36,27 +36,85 @@
 
                 <div id="start-screen" class="screen active">
                     <h1 class="title">Doodle<br>Jump</h1>
-                    <button id="start-btn" class="primary-btn">Play Now</button>
-                    <button id="shop-btn" class="secondary-btn">Shop</button>
+                    <div class="main-menu-btns">
+                        <button id="start-btn" class="primary-btn">Play Now</button>
+                        <button id="shop-btn" class="secondary-btn">Shop</button>
+                    </div>
+
                     <div id="biome-selector">
-                        <h3>Select Biome:</h3>
-                        <div class="biome-options">
-                            <button class="biome-btn selected" data-biome="normal" data-difficulty="low">Normal</button>
-                            <button class="biome-btn" data-biome="dream" data-difficulty="low">Dream World</button>
-                            <button class="biome-btn" data-biome="space" data-difficulty="medium">Space</button>
-                            <button class="biome-btn" data-biome="underwater"
-                                data-difficulty="medium">Underwater</button>
-                            <button class="biome-btn" data-biome="dark_forest" data-difficulty="medium">Dark
-                                Forest</button>
-                            <button class="biome-btn" data-biome="sun" data-difficulty="high">Sun</button>
-                            <button class="biome-btn" data-biome="cyberpunk" data-difficulty="high">Cyberpunk</button>
-                            <button class="biome-btn" data-biome="glacial_cave" data-difficulty="extreme">Glacial
-                                Cave</button>
+                        <h3>Select World</h3>
+                        <div class="biome-wheel-container">
+                            <div class="biome-wheel">
+                                <div class="biome-card selected" data-biome="normal">
+                                    <span class="biome-name">Normal</span>
+                                    <div class="biome-reqs">Free</div>
+                                </div>
+                                <div class="biome-card locked" data-biome="dream">
+                                    <span class="biome-name">Dream World</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">2000</span>
+                                        <span class="req-coins">🪙 200</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="space">
+                                    <span class="biome-name">Space</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">4000</span>
+                                        <span class="req-coins">🪙 500</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="underwater">
+                                    <span class="biome-name">Underwater</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">6000</span>
+                                        <span class="req-coins">🪙 1000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="dark_forest">
+                                    <span class="biome-name">Dark Forest</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">8000</span>
+                                        <span class="req-coins">🪙 2000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="sun">
+                                    <span class="biome-name">Sun</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">10000</span>
+                                        <span class="req-coins">🪙 4000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="cyberpunk">
+                                    <span class="biome-name">Cyberpunk</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">15000</span>
+                                        <span class="req-coins">🪙 7500</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="glacial_cave">
+                                    <span class="biome-name">Glacial Cave</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">25000</span>
+                                        <span class="req-coins">🪙 15000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="extra-actions">
+                        <button id="bonus-code-btn" class="icon-btn">🎁 Bonus Code</button>
+                    </div>
+
                     <div class="instructions">
-                        <p>Use <strong>Arrow Keys</strong>, <strong>A/D</strong>, or <strong>Touch Sides</strong> to
-                            move</p>
+                        <p>Move: <strong>Keys</strong> or <strong>Touch</strong></p>
                     </div>
                 </div>
 
@@ -73,6 +131,7 @@
                     <h2>Shop</h2>
                     <div id="shop-items-container">
                         <!-- Head Starts (Consumables) -->
+                        <h3 class="shop-category">Head Starts</h3>
                         <div class="shop-item">
                             <span>Start: Propeller</span>
                             <button class="buy-btn" data-cost="20" data-type="headstart" data-item="propeller">20
@@ -80,8 +139,8 @@
                         </div>
                         <div class="shop-item">
                             <span>Start: Jetpack</span>
-                            <button class="buy-btn" data-cost="60" data-type="headstart" data-item="jetpack">30
-                                Coins</button>
+                            <button class="buy-btn" data-cost="60" data-type="headstart" data-item="jetpack">60
+                                Coins</button> <!-- Fixed cost label from 30 to 60 -->
                         </div>
                         <div class="shop-item">
                             <span>Start: Boots</span>
@@ -90,8 +149,33 @@
                         </div>
                         <div class="shop-item">
                             <span>Start: Saver</span>
-                            <button class="buy-btn" data-cost="100" data-type="headstart" data-item="saver">50
-                                Coins</button>
+                            <button class="buy-btn" data-cost="100" data-type="headstart" data-item="saver">100
+                                Coins</button> <!-- Fixed cost label from 50 to 100 -->
+                        </div>
+
+                        <!-- Permanent Upgrades -->
+                        <h3 class="shop-category">Upgrades</h3>
+                        <div class="shop-item">
+                            <div class="item-info">
+                                <span class="item-name">Start Score Boost</span>
+                                <span class="item-level" id="level-startScoreBoost">Lv 0</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="upgrade" data-item="startScoreBoost">Buy:
+                                250</button>
+                        </div>
+                        <div class="shop-item">
+                            <div class="item-info">
+                                <span class="item-name">Boost Duration</span>
+                                <span class="item-level" id="level-boostDuration">Lv 0</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="upgrade" data-item="boostDuration">Buy: 400</button>
+                        </div>
+                        <div class="shop-item">
+                            <div class="item-info">
+                                <span class="item-name">Boost Strength</span>
+                                <span class="item-level" id="level-boostStrength">Lv 0</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="upgrade" data-item="boostStrength">Buy: 500</button>
                         </div>
                     </div>
                     <button id="close-shop-btn" class="secondary-btn">Back</button>
