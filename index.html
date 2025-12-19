@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doodle Jump Premium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="game-container">
+            <canvas id="gameCanvas"></canvas>
+
+            <!-- UI Layer -->
+            <div id="ui-layer">
+
+                <div id="score-display" class="hidden">0</div>
+                <div id="difficulty-container" class="hidden">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                        <span id="difficulty-label">Difficulty</span>
+                        <span id="difficulty-level-val">Lvl 1</span>
+                    </div>
+                    <div id="difficulty-bar-bg">
+                        <div id="difficulty-bar-fill"></div>
+                    </div>
+                    <div id="multiplier-display">x<span id="multiplier-val">1.0</span> Coins</div>
+                </div>
+
+
+                <div id="start-screen" class="screen active">
+                    <h1 class="title">Doodle<br>Jump</h1>
+                    <button id="start-btn" class="primary-btn">Play Now</button>
+                    <button id="shop-btn" class="secondary-btn">Shop</button>
+                    <div id="biome-selector">
+                        <h3>Select Biome:</h3>
+                        <div class="biome-options">
+                            <button class="biome-btn selected" data-biome="normal" data-difficulty="low">Normal</button>
+                            <button class="biome-btn" data-biome="dream" data-difficulty="low">Dream World</button>
+                            <button class="biome-btn" data-biome="space" data-difficulty="medium">Space</button>
+                            <button class="biome-btn" data-biome="underwater"
+                                data-difficulty="medium">Underwater</button>
+                            <button class="biome-btn" data-biome="dark_forest" data-difficulty="medium">Dark
+                                Forest</button>
+                            <button class="biome-btn" data-biome="sun" data-difficulty="high">Sun</button>
+                            <button class="biome-btn" data-biome="cyberpunk" data-difficulty="high">Cyberpunk</button>
+                            <button class="biome-btn" data-biome="glacial_cave" data-difficulty="extreme">Glacial
+                                Cave</button>
+                        </div>
+                    </div>
+                    <div class="instructions">
+                        <p>Use <strong>Arrow Keys</strong>, <strong>A/D</strong>, or <strong>Touch Sides</strong> to
+                            move</p>
+                    </div>
+                </div>
+
+                <div id="game-over-screen" class="screen hidden">
+                    <h2>Game Over!</h2>
+                    <div class="final-score">Score: <span id="final-score-val">0</span></div>
+                    <div class="high-score">High Score: <span id="high-score-val">0</span></div>
+                    <div class="run-coins">Earned: <span id="run-coins-val">0</span> Coins</div>
+                    <button id="restart-btn" class="primary-btn">Try Again</button>
+                    <button id="home-btn" class="secondary-btn">Home</button>
+                </div>
+
+                <div id="shop-screen" class="screen hidden">
+                    <h2>Shop</h2>
+                    <div id="shop-items-container">
+                        <!-- Head Starts (Consumables) -->
+                        <div class="shop-item">
+                            <span>Start: Propeller</span>
+                            <button class="buy-btn" data-cost="20" data-type="headstart" data-item="propeller">20
+                                Coins</button>
+                        </div>
+                        <div class="shop-item">
+                            <span>Start: Jetpack</span>
+                            <button class="buy-btn" data-cost="60" data-type="headstart" data-item="jetpack">30
+                                Coins</button>
+                        </div>
+                        <div class="shop-item">
+                            <span>Start: Boots</span>
+                            <button class="buy-btn" data-cost="15" data-type="headstart" data-item="boots">15
+                                Coins</button>
+                        </div>
+                        <div class="shop-item">
+                            <span>Start: Saver</span>
+                            <button class="buy-btn" data-cost="100" data-type="headstart" data-item="saver">50
+                                Coins</button>
+                        </div>
+                    </div>
+                    <button id="close-shop-btn" class="secondary-btn">Back</button>
+                </div>
+
+                <!-- HUD Elements that must be on top -->
+                <div id="currency-display">
+                    <span id="coin-count">0</span> Coins
+                    <span id="coin-pop-anim" class="hidden"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
