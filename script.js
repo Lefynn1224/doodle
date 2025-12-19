@@ -40,74 +40,103 @@ let GAME_HEIGHT = 700; // Dynamic
 
 const BIOMES = {
     normal: {
+        id: 'normal',
+        name: 'Normal',
         gravity: 0.4,
         jumpForce: -12,
         platformCount: 9,
         monsterSpawnMulti: 0.03,
+        unlockCost: 0,
+        unlockScoreRequirement: 0,
+        coinMultiplier: 1.0,
         colors: {
-            bgTop: '#fcfcfc', // Match CSS
+            bgTop: '#fcfcfc',
             bgBottom: '#fcfcfc',
             platformNormal: '#74b816',
             platformMoving: '#4cc9f0',
-            platformBreak: '#55efc4', // Light green-ish
+            platformBreak: '#55efc4',
             doodler: '#6bcf63',
             doodlerLegs: '#3a9e32',
             bgGrid: '#e0e0e0'
         }
     },
+    dream: {
+        id: 'dream',
+        name: 'Dream World',
+        gravity: 0.25,
+        jumpForce: -10,
+        platformCount: 10,
+        monsterSpawnMulti: 0.02,
+        unlockCost: 200,
+        unlockScoreRequirement: 2000,
+        previousBiome: 'normal',
+        coinMultiplier: 1.2,
+        colors: {
+            bgTop: '#6a11cb',
+            bgBottom: '#2575fc',
+            platformNormal: '#ffffff',
+            platformMoving: '#fbc2eb',
+            platformBreak: '#a18cd1',
+            doodler: '#ffffff',
+            doodlerLegs: '#cfd9df',
+            bgGrid: 'rgba(255, 255, 255, 0.05)'
+        }
+    },
     space: {
+        id: 'space',
+        name: 'Space',
         gravity: 0.15,
         jumpForce: -12,
         platformCount: 6,
         monsterSpawnMulti: 0.03,
+        unlockCost: 500,
+        unlockScoreRequirement: 4000,
+        previousBiome: 'dream',
+        coinMultiplier: 1.5,
         colors: {
             bgTop: '#0b0c2a',
             bgBottom: '#2d3436',
-            platformNormal: '#e056fd', // Neon Purple
-            platformMoving: '#00cec9', // Neon Cyan
-            platformBreak: '#ff7675', // Neon Red/Pink
-            doodler: '#81ecec', // Cyan alien
+            platformNormal: '#e056fd',
+            platformMoving: '#00cec9',
+            platformBreak: '#ff7675',
+            doodler: '#81ecec',
             doodlerLegs: '#00cec9',
             bgGrid: 'rgba(255,255,255,0.1)'
         }
     },
     underwater: {
+        id: 'underwater',
+        name: 'Underwater',
         gravity: 0.2,
         jumpForce: -7,
         platformCount: 13,
         monsterSpawnMulti: 0.2,
+        unlockCost: 1000,
+        unlockScoreRequirement: 6000,
+        previousBiome: 'space',
+        coinMultiplier: 2.0,
         colors: {
             bgTop: '#1e3799',
             bgBottom: '#4a69bd',
-            platformNormal: '#f6b93b', // Sand
-            platformMoving: '#78e08f', // Seaweed
-            platformBreak: '#e55039', // Coral
-            doodler: '#fab1a0', // Coral/Pinkish
+            platformNormal: '#f6b93b',
+            platformMoving: '#78e08f',
+            platformBreak: '#e55039',
+            doodler: '#fab1a0',
             doodlerLegs: '#e17055',
             bgGrid: 'rgba(255,255,255,0.1)'
         }
     },
-    sun: {
-        gravity: 0.8,
-        jumpForce: -14,
-        platformCount: 10,
-        monsterSpawnMulti: 0.01,
-        colors: {
-            bgTop: '#ff9f43',
-            bgBottom: '#ee5253',
-            platformNormal: '#ffdd59',
-            platformMoving: '#f368e0',
-            platformBreak: '#576574',
-            doodler: '#feca57',
-            doodlerLegs: '#ff9f43',
-            bgGrid: 'rgba(255, 255, 255, 0.1)'
-        }
-    },
     dark_forest: {
+        id: 'dark_forest',
+        name: 'Dark Forest',
         gravity: 0.45,
         jumpForce: -12,
         platformCount: 9,
-        monsterSpawnMulti: 0.12, // More dangerous
+        monsterSpawnMulti: 0.12,
+        unlockCost: 2000,
+        unlockScoreRequirement: 8000,
+        previousBiome: 'underwater',
+        coinMultiplier: 2.5,
         colors: {
             bgTop: '#050a05',
             bgBottom: '#102010',
@@ -119,11 +148,39 @@ const BIOMES = {
             bgGrid: 'rgba(0, 0, 0, 0.2)'
         }
     },
+    sun: {
+        id: 'sun',
+        name: 'Sun',
+        gravity: 0.8,
+        jumpForce: -14,
+        platformCount: 10,
+        monsterSpawnMulti: 0.01,
+        unlockCost: 4000,
+        unlockScoreRequirement: 10000,
+        previousBiome: 'dark_forest',
+        coinMultiplier: 3.5,
+        colors: {
+            bgTop: '#ff9f43',
+            bgBottom: '#ee5253',
+            platformNormal: '#ffdd59',
+            platformMoving: '#f368e0',
+            platformBreak: '#576574',
+            doodler: '#feca57',
+            doodlerLegs: '#ff9f43',
+            bgGrid: 'rgba(255, 255, 255, 0.1)'
+        }
+    },
     cyberpunk: {
+        id: 'cyberpunk',
+        name: 'Cyberpunk',
         gravity: 0.4,
         jumpForce: -12,
         platformCount: 9,
         monsterSpawnMulti: 0.05,
+        unlockCost: 7500,
+        unlockScoreRequirement: 15000,
+        previousBiome: 'sun',
+        coinMultiplier: 5.0,
         colors: {
             bgTop: '#0d0221',
             bgBottom: '#240b36',
@@ -136,10 +193,16 @@ const BIOMES = {
         }
     },
     glacial_cave: {
+        id: 'glacial_cave',
+        name: 'Glacial Cave',
         gravity: 0.4,
         jumpForce: -12,
         platformCount: 9,
         monsterSpawnMulti: 0.04,
+        unlockCost: 15000,
+        unlockScoreRequirement: 25000,
+        previousBiome: 'cyberpunk',
+        coinMultiplier: 10.0,
         colors: {
             bgTop: '#0d1b2a',
             bgBottom: '#1b263b',
@@ -150,27 +213,21 @@ const BIOMES = {
             doodlerLegs: '#00838f',
             bgGrid: 'rgba(255, 255, 255, 0.1)'
         }
-    },
-    dream: {
-        gravity: 0.25, // Very floaty
-        jumpForce: -10,
-        platformCount: 10,
-        monsterSpawnMulti: 0.02,
-        colors: {
-            bgTop: '#6a11cb',
-            bgBottom: '#2575fc',
-            platformNormal: '#ffffff',
-            platformMoving: '#fbc2eb',
-            platformBreak: '#a18cd1',
-            doodler: '#ffffff',
-            doodlerLegs: '#cfd9df',
-            bgGrid: 'rgba(255, 255, 255, 0.05)'
-        }
     }
 };
 
 let currentBiome = 'normal';
 let forestOffset = 0;
+
+// Upgrades and Persistance
+let unlockedBiomes = JSON.parse(localStorage.getItem('doodleUnlockedBiomes')) || ['normal'];
+let biomeHighScores = JSON.parse(localStorage.getItem('doodleBiomeHighScores')) || { normal: 0 };
+let upgrades = JSON.parse(localStorage.getItem('doodleUpgrades')) || {
+    startScoreBoost: 0, // Level 0 to 5
+    boostDuration: 0,   // Level 0 to 5
+    boostStrength: 0,   // Level 0 to 5
+};
+
 
 // Assets (simulated with drawing)
 let COLORS = {
@@ -385,7 +442,7 @@ class Doodler {
         this.isInvincible = false;
         this.equipment = null;
         this.equipmentTime = 0;
-        this.hasSaver = true;
+        this.hasSaver = false;
     }
 
     draw() {
@@ -442,15 +499,25 @@ class Doodler {
             ctx.scale(Math.sin(Date.now() / 50), 1);
             ctx.fillRect(-20, -2, 40, 4);
             ctx.restore();
-        } else if (this.equipment === 'jetpack') {
-            ctx.fillStyle = COLORS.jetpack;
-            ctx.fillRect(-25, -10, 10, 30);
-            ctx.fillStyle = 'orange'; // flame
+        } else if (this.equipment === 'jetpack' || this.equipment === 'big_rocket') {
+            const isBig = this.equipment === 'big_rocket';
+            ctx.fillStyle = isBig ? '#ff3f34' : COLORS.jetpack;
+            const w = isBig ? 15 : 10;
+            const h = isBig ? 45 : 30;
+            const offset = isBig ? -30 : -25;
+
+            ctx.fillRect(offset, -10, w, h);
+            ctx.fillStyle = isBig ? '#ff9f43' : 'orange'; // flame
             ctx.beginPath();
-            ctx.moveTo(-25, 20);
-            ctx.lineTo(-20, 20 + Math.random() * 15);
-            ctx.lineTo(-15, 20);
+            ctx.moveTo(offset, 20 + (isBig ? 15 : 0));
+            ctx.lineTo(offset + w / 2, 20 + (isBig ? 40 : 15) + Math.random() * 15);
+            ctx.lineTo(offset + w, 20 + (isBig ? 15 : 0));
             ctx.fill();
+
+            if (isBig) {
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(offset + 3, -5, w - 6, 10);
+            }
         }
 
         ctx.restore();
@@ -463,8 +530,12 @@ class Doodler {
                 this.equipment = null;
                 this.isInvincible = false;
             } else {
-                if (this.equipment === 'propeller') this.vy = -15;
-                if (this.equipment === 'jetpack') this.vy = -30;
+                // Apply Boost Strength Upgrade
+                let strengthMulti = 1.0 + (upgrades.boostStrength || 0) * 0.15;
+
+                if (this.equipment === 'propeller') this.vy = -15 * strengthMulti;
+                if (this.equipment === 'jetpack') this.vy = -30 * strengthMulti;
+                if (this.equipment === 'big_rocket') this.vy = -60 * strengthMulti; // Much stronger!
             }
         }
 
@@ -520,7 +591,7 @@ class Doodler {
         this.vy += GRAVITY;
         this.y += this.vy;
 
-        if (this.vy > 0 && !(this.equipment === 'propeller' || this.equipment === 'jetpack')) {
+        if (this.vy > 0 && !(this.equipment === 'propeller' || this.equipment === 'jetpack' || this.equipment === 'big_rocket')) {
             platforms.forEach(platform => {
                 if (
                     this.y + this.height >= platform.y &&
@@ -543,21 +614,29 @@ class Doodler {
                     }
 
                     if (platform.item) {
+                        // Boost Duration Upgrade (+1s per level)
+                        const addedDuration = (upgrades.boostDuration || 0) * 60;
+
                         if (platform.item === 'spring') {
                             this.vy = -20;
                         } else if (platform.item === 'propeller') {
                             this.equipment = 'propeller';
-                            this.equipmentTime = 300;
+                            this.equipmentTime = 300 + addedDuration;
                             this.isInvincible = true;
                             platform.item = null;
                         } else if (platform.item === 'jetpack') {
                             this.equipment = 'jetpack';
-                            this.equipmentTime = 150;
+                            this.equipmentTime = 150 + addedDuration;
+                            this.isInvincible = true;
+                            platform.item = null;
+                        } else if (platform.item === 'big_rocket') {
+                            this.equipment = 'big_rocket';
+                            this.equipmentTime = 100 + addedDuration;
                             this.isInvincible = true;
                             platform.item = null;
                         } else if (platform.item === 'boots') {
                             this.equipment = 'boots';
-                            this.equipmentTime = 600;
+                            this.equipmentTime = 600 + addedDuration;
                             this.isInvincible = false;
                             platform.item = null;
                             this.vy = jumpForce;
@@ -650,6 +729,7 @@ class Platform {
             const rItem = Math.random();
             if (rItem < 0.85) this.item = 'spring';
             else if (currentBiome === 'dream' && rItem < 0.92) this.item = 'cloud';
+            else if (currentBiome === 'space' && rItem > 0.97) this.item = 'big_rocket'; // Rare in space
             else if (rItem < 0.94) this.item = 'propeller';
             else if (rItem < 0.96) this.item = 'jetpack';
             else if (rItem < 0.98) this.item = 'boots';
@@ -733,6 +813,15 @@ class Platform {
             ctx.arc(this.x + 15, this.y - 12, 10, 0, Math.PI * 2);
             ctx.arc(this.x + 30, this.y - 15, 12, 0, Math.PI * 2);
             ctx.arc(this.x + 45, this.y - 12, 10, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (this.item === 'big_rocket') {
+            ctx.fillStyle = '#ff3f34';
+            ctx.fillRect(this.x + 15, this.y - 45, 20, 45);
+            ctx.fillStyle = '#fff';
+            ctx.beginPath();
+            ctx.moveTo(this.x + 15, this.y - 45);
+            ctx.lineTo(this.x + 25, this.y - 60);
+            ctx.lineTo(this.x + 35, this.y - 45);
             ctx.fill();
         }
     }
@@ -884,51 +973,50 @@ function showCoinPopup(amount) {
 }
 
 function initGame() {
-    doodler = new Doodler();
+    gameState = 'PLAYING';
+    startScreen.classList.remove('active');
+    gameOverScreen.classList.remove('active');
+    setTimeout(() => {
+        startScreen.classList.add('hidden');
+        gameOverScreen.classList.add('hidden');
+    }, 300);
+
+    // Apply Upgrades
+    score = (upgrades.startScoreBoost || 0) * 1000;
+    maxScore = score;
+    lastCoinThreshold = score;
+
     platforms = [];
     monsters = [];
     projectiles = [];
-    score = 0;
-    maxScore = 0;
-    difficultyLevel = 1;
-    runCoins = 0;
-    lastCoinThreshold = 0;
-    multiplier = 1.0;
-    forestOffset = 0;
     meteors = [];
     icicles = [];
     cloudActive = 0;
     underwaterTimer = 0;
+    cameraY = 0;
+    runCoins = 0;
+    difficultyLevel = 1;
+    multiplier = 1.0;
 
-    // Apply Headstart
-    const headStart = localStorage.getItem('doodleHeadStart');
-    if (headStart) {
-        if (headStart === 'saver') {
-            doodler.hasSaver = true;
-        } else if (headStart === 'boots') {
-            doodler.equipment = 'boots';
-            doodler.equipmentTime = 600;
-        } else if (headStart === 'propeller') {
-            doodler.equipment = 'propeller';
-            doodler.equipmentTime = 300;
-            doodler.isInvincible = true;
-        } else if (headStart === 'jetpack') {
-            doodler.equipment = 'jetpack';
-            doodler.equipmentTime = 100; // Shorter than pickup? or same
-            doodler.isInvincible = true;
-        }
+    doodler = new Doodler();
 
-        // Consume it
-        localStorage.removeItem('doodleHeadStart');
+    // Starting platform
+    platforms.push(new Platform(canvas.height - 50));
+    platforms[0].type = 'normal';
+    platforms[0].item = null;
+    platforms[0].x = canvas.width / 2 - PLATFORM_WIDTH / 2;
+
+    for (let i = 1; i < PLATFORM_COUNT; i++) {
+        platforms.push(new Platform(canvas.height - (i * (canvas.height / PLATFORM_COUNT))));
     }
 
-    // Set Biome Settings
+    // Apply Biome Gravity/Jump
     const biome = BIOMES[currentBiome];
     GRAVITY = biome.gravity;
     JUMP_FORCE = biome.jumpForce;
     PLATFORM_COUNT = biome.platformCount;
 
-    // Update Colors
+    // Reset colors for biome
     COLORS = {
         ...biome.colors,
         monster: '#a55eea',
@@ -937,51 +1025,144 @@ function initGame() {
         jetpack: '#e17055',
         projectile: '#d63031',
         saver: '#f1c40f',
-        boots: '#8e44ad'
+        boots: '#8e44ad',
+        cloud: '#ffffff',
+        big_rocket: '#ff3f34'
     };
 
-
-    // Create initial platforms
-    platforms = []; // Clear array
-    for (let i = 0; i < PLATFORM_COUNT; i++) {
-        let gap = canvas.height / PLATFORM_COUNT;
-        let pY = canvas.height - 100 - i * gap;
-        let p = new Platform(pY);
-        if (i === 0) {
-            p.x = canvas.width / 2 - PLATFORM_WIDTH / 2;
-            p.type = 'normal';
-            p.item = null;
+    // Head Start Logic
+    const headStart = localStorage.getItem('doodleHeadStart');
+    if (headStart) {
+        if (headStart === 'saver') {
+            doodler.hasSaver = true;
+        } else {
+            doodler.equipment = headStart;
+            // Upgraded duration?
+            const baseDurations = { propeller: 300, jetpack: 150, boots: 600 };
+            let duration = baseDurations[headStart] || 300;
+            duration += (upgrades.boostDuration || 0) * 60; // +1s per level
+            doodler.equipmentTime = duration;
+            doodler.isInvincible = (headStart !== 'boots');
         }
-        platforms.push(p);
+        localStorage.removeItem('doodleHeadStart'); // Consume it
+        updateShopUI();
     }
 
-    scoreDisplay.innerText = 0;
+    scoreDisplay.innerText = score;
     scoreDisplay.classList.remove('hidden');
     difficultyContainer.classList.remove('hidden');
-    startScreen.classList.remove('active');
-    gameOverScreen.classList.add('hidden');
-    gameOverScreen.classList.remove('active');
+    difficultyLevelVal.innerText = `Lvl 1`;
+    difficultyFill.style.width = '0%';
+    multiplierVal.innerText = '1.0';
 
-    gameState = 'PLAYING';
     gameLoop();
 }
 
-// Biome Selection Logic
-document.querySelectorAll('.biome-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        // Update UI
-        document.querySelectorAll('.biome-btn').forEach(b => b.classList.remove('selected'));
-        e.target.classList.add('selected');
+function updateBiomeUI() {
+    document.querySelectorAll('.biome-card').forEach(card => {
+        const biomeId = card.dataset.biome;
+        const biome = BIOMES[biomeId];
 
-        // Update State
-        currentBiome = e.target.dataset.biome;
+        card.classList.remove('locked', 'selected');
+        const lockIcon = card.querySelector('.biome-lock');
+        if (lockIcon) lockIcon.remove();
 
-        // Preview Colors?
-        const biome = BIOMES[currentBiome];
-        document.getElementById('game-container').style.background =
-            `linear-gradient(to bottom, ${biome.colors.bgTop}, ${biome.colors.bgBottom})`;
+        if (currentBiome === biomeId) {
+            card.classList.add('selected');
+        }
+
+        if (!unlockedBiomes.includes(biomeId)) {
+            card.classList.add('locked');
+
+            const lockSpan = document.createElement('span');
+            lockSpan.className = 'biome-lock';
+            lockSpan.innerText = '🔒';
+            card.appendChild(lockSpan);
+        }
+
+        // Update requirements text under name
+        const reqsEl = card.querySelector('.biome-reqs');
+        if (reqsEl) {
+            if (biomeId === 'normal') {
+                reqsEl.innerText = "Free";
+            } else if (unlockedBiomes.includes(biomeId)) {
+                reqsEl.innerText = "Unlocked";
+            } else {
+                reqsEl.innerHTML = `
+                    <span class="req-score">🎯 ${biome.unlockScoreRequirement}</span>
+                    <span class="req-coins">🪙 ${biome.unlockCost}</span>
+                `;
+            }
+        }
+    });
+}
+
+// Biome Picker Wheel Logic
+document.querySelectorAll('.biome-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const biomeId = card.dataset.biome;
+        const biome = BIOMES[biomeId];
+
+        if (unlockedBiomes.includes(biomeId)) {
+            currentBiome = biomeId;
+            updateBiomeUI();
+
+            // Center the selected card
+            card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+            // Preview Colors
+            document.getElementById('game-container').style.background =
+                `linear-gradient(to bottom, ${biome.colors.bgTop}, ${biome.colors.bgBottom})`;
+        } else {
+            // Unlock logic
+            let scoreInPrev = true;
+            if (biome.previousBiome) {
+                const prevScore = biomeHighScores[biome.previousBiome] || 0;
+                if (prevScore < biome.unlockScoreRequirement) {
+                    scoreInPrev = false;
+                }
+            }
+
+            if (scoreInPrev && coins >= biome.unlockCost) {
+                coins -= biome.unlockCost;
+                unlockedBiomes.push(biomeId);
+                localStorage.setItem('doodleCoins', coins);
+                localStorage.setItem('doodleUnlockedBiomes', JSON.stringify(unlockedBiomes));
+                coinCountVal.innerText = coins;
+                currentBiome = biomeId;
+                updateBiomeUI();
+                updateShopUI();
+
+                // Center newly unlocked card
+                card.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            } else {
+                let msg = scoreInPrev ? `Need ${biome.unlockCost} Coins!` :
+                    `Score ${biome.unlockScoreRequirement} in ${BIOMES[biome.previousBiome].name}!`;
+
+                const nameEl = card.querySelector('.biome-name');
+                const oldText = nameEl.innerText;
+                nameEl.innerText = msg;
+                nameEl.style.fontSize = '0.7rem';
+                setTimeout(() => {
+                    nameEl.innerText = oldText;
+                    nameEl.style.fontSize = '1rem';
+                }, 2000);
+            }
+        }
     });
 });
+
+// Center selected biome initially
+function centerSelectedBiome() {
+    const selected = document.querySelector('.biome-card.selected');
+    if (selected) {
+        selected.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+    }
+}
+
+// Initial Biome UI update
+updateBiomeUI();
+setTimeout(centerSelectedBiome, 100);
 
 
 function gameOver() {
@@ -998,6 +1179,12 @@ function gameOver() {
         highScoreVal.innerText = highScore;
     }
 
+    // Biome specific high score
+    if (!biomeHighScores[currentBiome] || maxScore > biomeHighScores[currentBiome]) {
+        biomeHighScores[currentBiome] = maxScore;
+        localStorage.setItem('doodleBiomeHighScores', JSON.stringify(biomeHighScores));
+    }
+
     // Add run coins to persistent storage
     coins += runCoins;
     localStorage.setItem('doodleCoins', coins);
@@ -1008,9 +1195,64 @@ function gameOver() {
     gameOverScreen.classList.remove('hidden');
     setTimeout(() => gameOverScreen.classList.add('active'), 10);
 
-    // Refresh Shop UI
+    // Refresh UIs
     updateShopUI();
+    updateBiomeUI();
+    updateUpgradeUI();
 }
+
+const UPGRADE_BASE_COSTS = {
+    startScoreBoost: 250,
+    boostDuration: 400,
+    boostStrength: 500
+};
+
+function updateUpgradeUI() {
+    for (let key in upgrades) {
+        const levelEl = document.getElementById(`level-${key}`);
+        if (levelEl) levelEl.innerText = `Lv ${upgrades[key]}`;
+
+        const btn = document.querySelector(`.upgrade-btn[data-item="${key}"]`);
+        if (btn) {
+            if (upgrades[key] >= 5) {
+                btn.innerText = "MAX";
+                btn.classList.add('maxed');
+            } else {
+                const cost = UPGRADE_BASE_COSTS[key] * (upgrades[key] + 1);
+                btn.innerText = `Buy: ${cost}`;
+                btn.classList.remove('maxed');
+            }
+        }
+    }
+}
+
+// Upgrade Click Logic
+document.querySelectorAll('.upgrade-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const item = btn.dataset.item;
+        const currentLevel = upgrades[item];
+
+        if (currentLevel >= 5) return;
+
+        const cost = UPGRADE_BASE_COSTS[item] * (currentLevel + 1);
+
+        if (coins >= cost) {
+            coins -= cost;
+            upgrades[item]++;
+            localStorage.setItem('doodleCoins', coins);
+            localStorage.setItem('doodleUpgrades', JSON.stringify(upgrades));
+            coinCountVal.innerText = coins;
+            updateUpgradeUI();
+            updateShopUI();
+        } else {
+            const oldText = btn.innerText;
+            btn.innerText = "No Coins!";
+            setTimeout(() => btn.innerText = oldText, 1000);
+        }
+    });
+});
+
+updateUpgradeUI();
 
 // Shop Costs Mapping
 const ITEM_COSTS = {
@@ -1121,8 +1363,11 @@ function updateCoins() {
 
         lastCoinThreshold += coinsEarned * 1000;
 
-        // Apply Multiplier
-        let amount = Math.floor(coinsEarned * multiplier);
+        // Apply Multipliers
+        const biomeConfig = BIOMES[currentBiome];
+        let biomeMulti = biomeConfig.coinMultiplier || 1.0;
+
+        let amount = Math.floor(coinsEarned * multiplier * biomeMulti);
         if (amount < 1) amount = 1; // Safety
 
         runCoins += amount;
@@ -1167,23 +1412,30 @@ function update() {
 
     platforms.forEach(p => p.update());
     monsters.forEach(m => m.update());
-    projectiles.forEach((p, index) => {
+
+    // Performance: Backwards loops for splicing
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+        const p = projectiles[i];
         p.update();
-        if (p.y < 0) projectiles.splice(index, 1);
-        else {
-            monsters.forEach((m, mIndex) => {
-                if (
-                    p.x > m.x && p.x < m.x + m.width &&
-                    p.y > m.y && p.y < m.y + m.height
-                ) {
-                    monsters.splice(mIndex, 1);
-                    projectiles.splice(index, 1);
-                }
-            });
+        if (p.y < 0) {
+            projectiles.splice(i, 1);
+            continue;
         }
-    });
 
-
+        let hit = false;
+        for (let j = monsters.length - 1; j >= 0; j--) {
+            const m = monsters[j];
+            if (
+                p.x > m.x && p.x < m.x + m.width &&
+                p.y > m.y && p.y < m.y + m.height
+            ) {
+                monsters.splice(j, 1);
+                hit = true;
+                break;
+            }
+        }
+        if (hit) projectiles.splice(i, 1);
+    }
 
     platforms = platforms.filter(p => p.y < canvas.height && !p.broken);
     monsters = monsters.filter(m => m.y < canvas.height);
@@ -1199,7 +1451,6 @@ function update() {
         let newY = highestP.y - gap;
         platforms.push(new Platform(newY));
 
-        // Spawn monsters based on difficulty and biome
         let spawnRate = (0.05 + (difficultyLevel * 0.01)) * BIOMES[currentBiome].monsterSpawnMulti;
         if (Math.random() < spawnRate && score > 200) {
             monsters.push(new Monster(Math.random() * (canvas.width - 50), newY - 50));
@@ -1211,11 +1462,14 @@ function update() {
         meteors.push(new Meteor());
     }
 
-    meteors.forEach((m, index) => {
+    for (let i = meteors.length - 1; i >= 0; i--) {
+        const m = meteors[i];
         m.update();
-        if (m.y > canvas.height) meteors.splice(index, 1);
+        if (m.y > canvas.height) {
+            meteors.splice(i, 1);
+            continue;
+        }
 
-        // Collision with Doodler
         if (m.timer <= 0) {
             if (
                 doodler.x < m.x + m.width &&
@@ -1226,27 +1480,30 @@ function update() {
                 gameOver();
             }
         }
-    });
+    }
 
     // Glacial Icicle Logic
     if (currentBiome === 'glacial_cave' && Math.random() < 0.006) {
         icicles.push(new Icicle());
     }
 
-    icicles.forEach((i, index) => {
-        i.update();
-        if (i.y > canvas.height) icicles.splice(index, 1);
+    for (let i = icicles.length - 1; i >= 0; i--) {
+        const ic = icicles[i];
+        ic.update();
+        if (ic.y > canvas.height) {
+            icicles.splice(i, 1);
+            continue;
+        }
 
-        // Collision with Doodler
         if (
-            doodler.x < i.x + i.width &&
-            doodler.x + doodler.width > i.x &&
-            doodler.y < i.y + i.height &&
-            doodler.y + doodler.height > i.y
+            doodler.x < ic.x + ic.width &&
+            doodler.x + doodler.width > ic.x &&
+            doodler.y < ic.y + ic.height &&
+            doodler.y + doodler.height > ic.y
         ) {
             gameOver();
         }
-    });
+    }
 }
 
 function draw() {
@@ -1481,10 +1738,46 @@ homeBtn.addEventListener('click', () => {
     gameOverScreen.classList.remove('active');
     setTimeout(() => {
         gameOverScreen.classList.add('hidden');
+        startScreen.classList.remove('hidden'); // CRITICAL FIX
         startScreen.classList.add('active');
     }, 300);
     gameState = 'MENU';
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    updateBiomeUI(); // Refresh UI State
+});
+
+// Bonus Code Logic
+const bonusCodeBtn = document.getElementById('bonus-code-btn');
+bonusCodeBtn.addEventListener('click', () => {
+    const code = prompt("Enter Bonus Code:");
+    if (!code) return;
+
+    const formattedCode = code.toUpperCase().trim();
+    if (formattedCode === 'BOOST2024') {
+        coins += 1000;
+        showCoinPopup(1000);
+        alert("Code Accepted! +1000 Coins");
+    } else if (formattedCode === 'SPACEJET') {
+        localStorage.setItem('doodleHeadStart', 'jetpack');
+        alert("Code Accepted! Next run starts with a Jetpack!");
+    } else if (formattedCode === 'UNLUCKY') {
+        alert("Code Accepted! You got... nothing? Actually, here's 1 coin.");
+        coins += 1;
+        showCoinPopup(1);
+    } else if (formattedCode === 'DEVCOINS') {
+        alert("Code Accepted!");
+        coins += 1000000;
+        showCoinPopup(1000000);
+    } else if (formattedCode === '') {
+        alert("Code Accepted!");
+        coins += 1000000;
+        showCoinPopup(1000000);
+    } else {
+        alert("Invalid Code!");
+    }
+    localStorage.setItem('doodleCoins', coins);
+    coinCountVal.innerText = coins;
+    updateShopUI();
 });
 
 // Initial Render
