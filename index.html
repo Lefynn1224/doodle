@@ -38,6 +38,212 @@
                     <h1 class="title">Doodle<br>Jump</h1>
                     <div class="main-menu-btns">
                         <button id="start-btn" class="primary-btn">Play Now</button>
+                        <div style="display: flex; gap: 10px;">
+                            <button id="shop-btn" class="secondary-btn" style="flex: 1; margin: 0;">Shop</button>
+                            <button id="wardrobe-btn" class="secondary-btn"
+                                style="flex: 1; margin: 0;">Wardrobe</button>
+                        </div>
+                    </div>
+
+                    <div id="biome-selector">
+                        <h3>Select World</h3>
+                        <div class="biome-wheel-container">
+                            <div class="biome-wheel">
+                                <div class="biome-card selected" data-biome="normal">
+                                    <span class="biome-name">Normal</span>
+                                    <div class="biome-reqs">Free</div>
+                                </div>
+                                <div class="biome-card locked" data-biome="dream">
+                                    <span class="biome-name">Dream World</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">2000</span>
+                                        <span class="req-coins">🪙 200</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="space">
+                                    <span class="biome-name">Space</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">4000</span>
+                                        <span class="req-coins">🪙 500</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="underwater">
+                                    <span class="biome-name">Underwater</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">6000</span>
+                                        <span class="req-coins">🪙 1000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="dark_forest">
+                                    <span class="biome-name">Dark Forest</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">8000</span>
+                                        <span class="req-coins">🪙 2000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="sun">
+                                    <span class="biome-name">Sun</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">10000</span>
+                                        <span class="req-coins">🪙 4000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="cyberpunk">
+                                    <span class="biome-name">Cyberpunk</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">15000</span>
+                                        <span class="req-coins">🪙 7500</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                                <div class="biome-card locked" data-biome="glacial_cave">
+                                    <span class="biome-name">Glacial Cave</span>
+                                    <div class="biome-reqs">
+                                        <span class="req-score">25000</span>
+                                        <span class="req-coins">🪙 15000</span>
+                                    </div>
+                                    <span class="biome-lock">🔒</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="extra-actions">
+                        <button id="bonus-code-btn" class="icon-btn">🎁 Bonus Code</button>
+                    </div>
+
+                    <div class="instructions">
+                        <p>Move: <strong>Keys</strong> or <strong>Touch</strong></p>
+                    </div>
+                </div>
+
+                <div id="game-over-screen" class="screen hidden">
+                    <h2>Game Over!</h2>
+                    <div class="final-score">Score: <span id="final-score-val">0</span></div>
+                    <div class="high-score">High Score: <span id="high-score-val">0</span></div>
+                    <div class="run-coins">Earned: <span id="run-coins-val">0</span> Coins</div>
+                    <button id="restart-btn" class="primary-btn">Try Again</button>
+                    <button id="home-btn" class="secondary-btn">Home</button>
+                </div>
+
+                <div id="shop-screen" class="screen hidden">
+                    <button id="close-shop-btn" class="back-btn">← Back</button>
+                    <h2>Shop</h2>
+                    <div id="shop-items-container">
+                        <!-- Head Starts (Consumables) -->
+                        <h3 class="shop-category">Head Starts</h3>
+                        <div class="shop-item">
+                            <span>Start: Propeller</span>
+                            <button class="buy-btn" data-cost="20" data-type="headstart" data-item="propeller">20
+                                Coins</button>
+                        </div>
+                        <div class="shop-item">
+                            <span>Start: Jetpack</span>
+                            <button class="buy-btn" data-cost="60" data-type="headstart" data-item="jetpack">60
+                                Coins</button> <!-- Fixed cost label from 30 to 60 -->
+                        </div>
+                        <div class="shop-item">
+                            <span>Start: Boots</span>
+                            <button class="buy-btn" data-cost="15" data-type="headstart" data-item="boots">15
+                                Coins</button>
+                        </div>
+                        <div class="shop-item">
+                            <span>Start: Saver</span>
+                            <button class="buy-btn" data-cost="100" data-type="headstart" data-item="saver">100
+                                Coins</button> <!-- Fixed cost label from 50 to 100 -->
+                        </div>
+
+                        <!-- Permanent Upgrades -->
+                        <h3 class="shop-category">Upgrades</h3>
+                        <div class="shop-item">
+                            <div class="item-info">
+                                <span class="item-name">Start Score Boost</span>
+                                <span class="item-level" id="level-startScoreBoost">Lv 0</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="upgrade" data-item="startScoreBoost">Buy:
+                                250</button>
+                        </div>
+                        <div class="shop-item">
+                            <div class="item-info">
+                                <span class="item-name">Boost Duration</span>
+                                <span class="item-level" id="level-boostDuration">Lv 0</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="upgrade" data-item="boostDuration">Buy: 400</button>
+                        </div>
+                        <div class="shop-item">
+                            <div class="item-info">
+                                <span class="item-name">Boost Strength</span>
+                                <span class="item-level" id="level-boostStrength">Lv 0</span>
+                            </div>
+                            <button class="upgrade-btn" data-type="upgrade" data-item="boostStrength">Buy: 500</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="wardrobe-screen" class="screen hidden">
+                    <button id="close-wardrobe-btn" class="back-btn">← Back</button>
+                    <h2>Wardrobe</h2>
+                    <div id="wardrobe-items-container">
+                        <!-- Character items will be injected here -->
+                    </div>
+                </div>
+
+                <!-- HUD Elements that must be on top -->
+                <div id="currency-display">
+                    <span id="coin-count">0</span> Coins
+                    <span id="coin-pop-anim" class="hidden"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doodle Jump - Lefynn1224</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Inter:wght@400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="game-container">
+            <canvas id="gameCanvas"></canvas>
+
+            <!-- UI Layer -->
+            <div id="ui-layer">
+
+                <div id="score-display" class="hidden">0</div>
+                <div id="difficulty-container" class="hidden">
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                        <span id="difficulty-label">Difficulty</span>
+                        <span id="difficulty-level-val">Lvl 1</span>
+                    </div>
+                    <div id="difficulty-bar-bg">
+                        <div id="difficulty-bar-fill"></div>
+                    </div>
+                    <div id="multiplier-display">x<span id="multiplier-val">1.0</span> Coins</div>
+                </div>
+
+
+                <div id="start-screen" class="screen active">
+                    <h1 class="title">Doodle<br>Jump</h1>
+                    <div class="main-menu-btns">
+                        <button id="start-btn" class="primary-btn">Play Now</button>
                         <button id="shop-btn" class="secondary-btn">Shop</button>
                     </div>
 
@@ -193,3 +399,4 @@
 </body>
 
 </html>
+
