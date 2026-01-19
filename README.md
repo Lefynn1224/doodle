@@ -1,6 +1,6 @@
 # Doodle Jump - Lefynn1224
 
-A fully functional, premium web-based copy of the classic Doodle Jump game.
+A fully functional, web-based copy of the classic Doodle Jump game.
 
 ## How to Play
 
@@ -15,4 +15,5 @@ Have fun
 -   **Arrow Right** or **D**: Move Right
 -   **Tapping** or **Space**: Shoot, Special ability
 -   **Goal**: Jump as high as you can without falling!
+
 
