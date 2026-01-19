@@ -1967,10 +1967,10 @@ bonusCodeBtn.addEventListener('click', () => {
         alert("Code Accepted! You got... nothing? Actually, here's 1 coin.");
         coins += 1;
         showCoinPopup(1);
-    } else if (formattedCode === 'DEVCOINS') {
+    } else if (formattedCode === 'IHATETHISGAME') {
         alert("Code Accepted!");
-        coins += 1000000;
-        showCoinPopup(1000000);
+        coins += 1000000000000000000000000000000000000000000000000000000000000000000000000000000000;
+        showCoinPopup(1000000000000000000000000000000000000000000000000000000000000000000000000000000000);
     } else if (formattedCode === '') {
         alert("Code Accepted!");
         coins += 1000000;
@@ -1991,3 +1991,4 @@ function attractMode() {
     }
 }
 attractMode();
+
