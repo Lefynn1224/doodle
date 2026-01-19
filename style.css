@@ -263,195 +263,136 @@ button {
     }
 }
 
-/* Difficulty UI Updates */
-#difficulty-container {
-    height: auto;
-    gap: 2px;
+/* Back Button Style */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white;
+    color: var(--text-color);
+    border: 3px solid #ddd;
+    border-radius: 15px;
+    padding: 8px 15px;
+    font-family: var(--font-hand);
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #ccc;
+    transition: all 0.1s;
+    z-index: 1000;
 }
 
-#difficulty-level-val {
-    font-size: 0.9rem;
-    font-weight: 800;
-    color: var(--accent-color);
+.back-btn:hover {
+    background: #f8f9fa;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #ccc;
 }
 
-#multiplier-display {
-    font-size: 0.7rem;
-    text-align: right;
-    color: #636e72;
-    font-weight: 600;
+.back-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #ccc;
 }
 
-/* Shop Styles */
-#shop-items-container {
+#shop-screen,
+#wardrobe-screen {
+    justify-content: flex-start;
+    padding-top: 80px;
+    padding-bottom: 40px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) #f0f0f0;
+}
+
+#shop-screen::-webkit-scrollbar,
+#wardrobe-screen::-webkit-scrollbar {
+    width: 6px;
+}
+
+#shop-screen::-webkit-scrollbar-thumb,
+#wardrobe-screen::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+}
+
+#wardrobe-items-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    width: 90%;
-    margin-bottom: 30px;
+    width: 95%;
+    padding: 10px;
 }
 
-.shop-item {
-    background: #fff;
+.char-card {
+    background: white;
     padding: 15px;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    border: 3px solid #ddd;
+    box-shadow: 0 6px 0 #ccc;
+    width: 150px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    width: 120px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.shop-item span {
-    font-weight: bold;
-    color: var(--text-color);
+.char-card.selected {
+    border-color: var(--primary-color);
+    box-shadow: 0 8px 0 #58b050;
+    transform: scale(1.05);
 }
 
-.buy-btn {
-    font-family: var(--font-ui);
-    padding: 5px 12px;
-    font-size: 0.9rem;
-    background: #f1c40f;
-    color: #000;
-    box-shadow: 0 3px 0 #b7950b;
-    margin: 0;
+.char-card.locked {
+    filter: grayscale(1);
+    opacity: 0.7;
 }
 
-.buy-btn:active {
-    transform: translateY(3px);
-    box-shadow: none;
-}
-
-.buy-btn.owned {
-    background: #bdc3c7;
-    box-shadow: none;
-    cursor: default;
-    color: #ecf0f1;
-}
-
-.run-coins {
-    font-family: var(--font-ui);
-    font-size: 1.2rem;
-    color: #f1c40f;
-    margin-bottom: 10px;
-    font-weight: 800;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 5px 15px;
-    border-radius: 15px;
-}
-
-/* Score */
-#score-display {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-family: var(--font-hand);
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--text-color);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 15px;
-    border-radius: 20px;
-    display: block;
-    /* Overrides hidden if removed class */
-}
-
-#score-display.hidden {
-    display: none;
-}
-
-/* Difficulty Bar */
-#difficulty-container {
-    position: absolute;
-    top: 70px;
-    /* Below score */
-    left: 20px;
-    width: 150px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 8px 12px;
-    border-radius: 12px;
-    font-family: var(--font-ui);
+.char-preview-box {
+    width: 80px;
+    height: 80px;
+    background: #f8f9fa;
+    border-radius: 50%;
     display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-#difficulty-container.hidden {
-    display: none !important;
-}
-
-#difficulty-label {
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--text-color);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-#difficulty-bar-bg {
-    width: 100%;
-    height: 8px;
-    background: #dfe6e9;
-    border-radius: 4px;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ddd;
+    position: relative;
     overflow: hidden;
 }
 
-#difficulty-bar-fill {
-    width: 0%;
-    height: 100%;
-    background: var(--accent-color);
-    transition: width 0.3s ease;
-}
-
-#currency-display {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+.char-name {
     font-family: var(--font-hand);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    color: var(--text-color);
     font-weight: bold;
-    color: #f1c40f;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 5px 15px;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#coin-popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-family: var(--font-hand);
-    font-size: 3rem;
-    color: #f1c40f;
-    text-shadow: 2px 2px 0 #000;
+.char-ability {
+    font-size: 0.75rem;
+    color: #636e72;
+    text-align: center;
+    font-weight: 600;
+}
+
+.char-buy-btn {
+    font-family: var(--font-ui);
+    padding: 6px 15px;
+    font-size: 0.9rem;
+    background: #f1c40f;
+    color: #000;
+    box-shadow: 0 3px 0 #b7950b;
+    border-radius: 15px;
+    width: 100%;
+    margin: 0;
+}
+
+.char-buy-btn.equipped {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: 0 3px 0 #4a9e43;
     pointer-events: none;
-    animation: popupAnim 1s ease-out forwards;
-}
-
-@keyframes popupAnim {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -20%) scale(0.5);
-    }
-
-    20% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.2);
-    }
-
-    80% {
-        opacity: 1;
-        transform: translate(-50%, -80%) scale(1);
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -100%);
-    }
 }
 
 /* Difficulty UI Updates */
@@ -532,6 +473,8 @@ button {
     padding: 5px 15px;
     border-radius: 15px;
 }
+
+
 
 /* Biome Selector */
 #biome-selector {
@@ -694,6 +637,16 @@ button {
     font-size: 0.8rem;
     color: var(--primary-color);
     font-weight: 800;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-bonus {
+    font-size: 0.65rem;
+    color: #636e72;
+    font-weight: 600;
+    margin-top: 2px;
 }
 
 .upgrade-btn {
