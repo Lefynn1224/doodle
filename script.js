@@ -308,12 +308,23 @@ let highScore = localStorage.getItem('doodleHighScore') || 0;
 highScoreVal.innerText = highScore;
 coinCountVal.innerText = coins;
 
+let bgGradient;
+function updateBgGradient() {
+    if (!ctx) return;
+    const bg = BIOMES[currentBiome].colors;
+    bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    bgGradient.addColorStop(0, bg.bgTop);
+    bgGradient.addColorStop(1, bg.bgBottom);
+}
+
 // Resize handling
 function resize() {
     const container = document.getElementById('game-container');
+    if (!container) return;
     canvas.width = container.clientWidth;
     canvas.height = container.clientHeight;
     GAME_HEIGHT = canvas.height;
+    updateBgGradient();
 }
 window.addEventListener('resize', resize);
 resize();
@@ -430,9 +441,9 @@ class Projectile {
         ctx.fill();
     }
 
-    update() {
-        this.x += this.vx;
-        this.y += this.vy;
+    update(dt = 1) {
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
     }
 }
 
@@ -473,8 +484,8 @@ class Monster {
         ctx.stroke();
     }
 
-    update() {
-        this.x += this.vx;
+    update(dt = 1) {
+        this.x += this.vx * dt;
         if (this.x > this.startX + this.range || this.x < this.startX - this.range) {
             this.vx *= -1;
         }
@@ -626,9 +637,9 @@ class Doodler {
         }
     }
 
-    update() {
+    update(dt = 1) {
         if (this.equipment) {
-            this.equipmentTime--;
+            this.equipmentTime -= dt;
             if (this.equipmentTime <= 0) {
                 this.equipment = null;
                 this.isInvincible = false;
@@ -643,12 +654,12 @@ class Doodler {
         }
 
         if (cloudActive > 0) {
-            cloudActive--;
+            cloudActive -= dt;
         }
 
         if (currentBiome === 'glacial_cave') {
-            const accel = 0.4;
-            const friction = 0.92;
+            const accel = 0.4 * dt;
+            const friction = Math.pow(0.92, dt);
             if (keys['ArrowLeft']) {
                 this.vx -= accel;
                 this.facingRight = false;
@@ -673,17 +684,17 @@ class Doodler {
         }
 
         if (currentBiome === 'underwater') {
-            underwaterTimer++;
+            underwaterTimer += dt;
             // Every 20s (1200 frames), current lasts for 4s (240 frames)
             let cycle = underwaterTimer % 1200;
             if (cycle < 240) {
                 // Alternating direction every cycle
                 let dir = (Math.floor(underwaterTimer / 1200) % 2 === 0) ? 1 : -1;
-                this.x += dir * 1.5; // Current force
+                this.x += dir * 1.5 * dt; // Current force
             }
         }
 
-        this.x += this.vx;
+        this.x += this.vx * dt;
 
         if (this.x + this.width < 0) {
             this.x = canvas.width;
@@ -691,14 +702,14 @@ class Doodler {
             this.x = -this.width;
         }
 
-        this.vy += GRAVITY;
-        this.y += this.vy;
+        this.vy += GRAVITY * dt;
+        this.y += this.vy * dt;
 
         if (this.vy > 0 && !(this.equipment === 'propeller' || this.equipment === 'jetpack' || this.equipment === 'big_rocket')) {
             platforms.forEach(platform => {
                 if (
                     this.y + this.height >= platform.y &&
-                    this.y + this.height <= platform.y + platform.height + this.vy &&
+                    this.y + this.height <= platform.y + platform.height + (this.vy * dt) &&
                     this.x + this.width > platform.x &&
                     this.x < platform.x + platform.width
                 ) {
@@ -936,9 +947,9 @@ class Platform {
         }
     }
 
-    update() {
+    update(dt = 1) {
         if (this.type === 'moving') {
-            this.x += this.vx;
+            this.x += this.vx * dt;
             if (currentBiome === 'dream') {
                 if (this.x + this.width < 0) this.x = canvas.width;
                 else if (this.x > canvas.width) this.x = -this.width;
@@ -952,7 +963,7 @@ class Platform {
                 }
             }
         } else if (this.type === 'v-moving') {
-            this.y += this.vy;
+            this.y += this.vy * dt;
             if (this.y > this.startY + this.rangeY || this.y < this.startY - this.rangeY) {
                 this.vy *= -1;
             }
@@ -970,11 +981,11 @@ class Meteor {
         this.timer = 600; // 10 seconds at 60fps
     }
 
-    update() {
+    update(dt = 1) {
         if (this.timer > 0) {
-            this.timer--;
+            this.timer -= dt;
         } else {
-            this.y += this.vy;
+            this.y += this.vy * dt;
         }
     }
 
@@ -1047,8 +1058,8 @@ class Icicle {
         this.vy = 7 + Math.random() * 5;
     }
 
-    update() {
-        this.y += this.vy;
+    update(dt = 1) {
+        this.y += this.vy * dt;
     }
 
     draw() {
@@ -1141,6 +1152,8 @@ function initGame() {
         big_rocket: '#ff3f34'
     };
 
+    updateBgGradient();
+
     // Head Start Logic
     const headStart = localStorage.getItem('doodleHeadStart');
     if (headStart) {
@@ -1166,7 +1179,8 @@ function initGame() {
     difficultyFill.style.width = '0%';
     multiplierVal.innerText = '1.0';
 
-    gameLoop();
+    lastTime = performance.now();
+    gameLoop(lastTime);
 }
 
 function updateBiomeUI() {
@@ -1558,8 +1572,8 @@ function updateCoins() {
     }
 }
 
-function update() {
-    doodler.update();
+function update(dt = 1) {
+    doodler.update(dt);
 
     // Death Check
     if (doodler.y > canvas.height) {
@@ -1593,13 +1607,13 @@ function update() {
         updateCoins();
     }
 
-    platforms.forEach(p => p.update());
-    monsters.forEach(m => m.update());
+    platforms.forEach(p => p.update(dt));
+    monsters.forEach(m => m.update(dt));
 
     // Performance: Backwards loops for splicing
     for (let i = projectiles.length - 1; i >= 0; i--) {
         const p = projectiles[i];
-        p.update();
+        p.update(dt);
         if (p.y < 0) {
             projectiles.splice(i, 1);
             continue;
@@ -1623,7 +1637,7 @@ function update() {
     platforms = platforms.filter(p => p.y < canvas.height && !p.broken);
     monsters = monsters.filter(m => m.y < canvas.height);
     jumpEffects = jumpEffects.filter(e => e.alpha > 0);
-    jumpEffects.forEach(e => e.update());
+    jumpEffects.forEach(e => e.update(dt));
 
     while (platforms.length < PLATFORM_COUNT) {
         let highestP = platforms.reduce((prev, curr) => prev.y < curr.y ? prev : curr);
@@ -1649,7 +1663,7 @@ function update() {
 
     for (let i = meteors.length - 1; i >= 0; i--) {
         const m = meteors[i];
-        m.update();
+        m.update(dt);
         if (m.y > canvas.height) {
             meteors.splice(i, 1);
             continue;
@@ -1674,7 +1688,7 @@ function update() {
 
     for (let i = icicles.length - 1; i >= 0; i--) {
         const ic = icicles[i];
-        ic.update();
+        ic.update(dt);
         if (ic.y > canvas.height) {
             icicles.splice(i, 1);
             continue;
@@ -1693,12 +1707,8 @@ function update() {
 
 function draw() {
     // Dynamic background
-    const bg = BIOMES[currentBiome].colors;
-    // Create gradient
-    let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    grad.addColorStop(0, bg.bgTop);
-    grad.addColorStop(1, bg.bgBottom);
-    ctx.fillStyle = grad;
+    if (!bgGradient) updateBgGradient();
+    ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Grid (if needed, make it subtle)
@@ -1906,10 +1916,18 @@ function draw() {
     }
 }
 
-function gameLoop() {
+let lastTime = 0;
+function gameLoop(timestamp) {
     if (gameState !== 'PLAYING') return;
 
-    update();
+    if (!lastTime) lastTime = timestamp;
+    const elapsed = timestamp - lastTime;
+    lastTime = timestamp;
+
+    // Cap delta time to prevent massive jumps when switching tabs
+    const dt = Math.min(elapsed / (1000 / 60), 3);
+
+    update(dt);
     if (gameState === 'PLAYING') {
         draw();
         gameLoopId = requestAnimationFrame(gameLoop);
